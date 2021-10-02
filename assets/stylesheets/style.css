@@ -12,7 +12,7 @@ body {
   height: 100%;
 }
 html {
-  font-family: Helvetica, Arial, Sans-Serif;
+  font-family: "Gemunu Libre", sans-serif;
   font-size: 16px;
 }
 body {
@@ -35,11 +35,8 @@ iframe {
 /* CSS varaibles */
 :root {
   --main-border-color: #000;
-}
-/* Buttons */
-.btn {
-  width: 5rem;
-  font-size: 1em;
+  --button-background-color: #efefef;
+  --button-hover-background-color: #797979;
 }
 /* Content */
 #main {
@@ -49,10 +46,30 @@ iframe {
   font-size: 1rem;
 }
 #title {
-  font-size: 1.5em;
+  font-size: 3.2em;
+}
+/* Buttons */
+.btn {
+  width: 5rem;
+  border: 1px solid #000;
+  margin: 5px;
+  font-size: 1em;
+  background-color: var(--button-background-color);
+  cursor: pointer;
+}
+.btn--active {
+  background-color: var(--button-hover-background-color);
 }
 #btn--clear {
-  display: block;
+  display: inline-block;
+  margin: 12px auto;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.btn-selection {
+  display: inline-flex;
+  width: 80%;
+  justify-content: center;
   margin: 12px auto;
   font-size: 1.2em;
 }
@@ -65,7 +82,31 @@ iframe {
   height: 70%;
   border: 2px solid var(--main-border-color);
   background-color: #fff;
+  cursor: url("/assets/images/brush.cur"), auto;
 }
-.square {
-  background-color: rgb(150, 0, 0);
+/* Inputs */
+.ipt-selection {
+  padding: 5px;
+  margin: 12px;
+  font-size: 1rem;
+}
+.ipt-selection h2 {
+  margin: 2px;
+  font-weight: 700;
+  font-size: 1.7em;
+  text-decoration: underline;
+}
+.ipt-selection .container {
+  display: grid;
+  grid-template-columns: 300px 200px;
+  grid-row-gap: 12px;
+  grid-auto-rows: 1fr;
+  width: 90%;
+  margin: 12px auto;
+  font-size: 1.1em;
+}
+.ipt-selection .container input {
+  width: 30%;
+  text-align: right;
+  cursor: pointer;
 }
