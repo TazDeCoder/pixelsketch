@@ -4,6 +4,8 @@
 
 ![Demo Preview](/assets/images/demo-preview.png)
 
+Random drawing of a funnel
+
 ## Description
 
 Draw anyhting using this sketchpad, and mostly importantly, have fun!
