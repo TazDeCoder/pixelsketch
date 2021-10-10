@@ -4,153 +4,133 @@
 const sketchpad = document.querySelector("#sketchpad");
 // Buttons
 const clearBtn = document.querySelector("#btn--clear");
-const normalBtn = document.querySelector("#btn--normal");
-const colorBtn = document.querySelector("#btn--color");
-const shadeBtn = document.querySelector("#btn--shade");
-const eraserBtn = document.querySelector("#btn--eraser");
-// Inputs
-const squareQtyInput = document.querySelector("#square--qty");
-const squareColorInput = document.querySelector("#square--color");
-const brushColorInput = document.querySelector("#brush--color");
+// --- BRUSH MODES
+const modeBtns = document
+  .querySelector("#btn--modes")
+  .getElementsByClassName("btn");
+const [normalBtn, colorBtn, shadeBtn, eraserBtn] = modeBtns;
+// Inputs --- SETTINGS
+const canvasPixelsIpt = document.querySelector("#canvas--pixels");
+const canvasColorIpt = document.querySelector("#canvas--color");
+const brushColorIpt = document.querySelector("#brush--color");
 
-let squareQty, squareColor, brush, brushColor;
+// Initial variables
+let currentMode;
+const canvas = {
+  pixels: 16,
+  color: "#f00",
+};
+const brush = {
+  mode: "normal",
+  color: "rgb(0,0,0)",
+};
 
 function init() {
-  // Initial conditons
-  squareQty = 16; // Specifies 16x16 grid
-  squareColor = "#f00";
-  brush = "normal";
-  brushColor = "rgb(0,0,0)";
+  // Reset conditons
+  currentMode = normalBtn;
+  currentMode.classList.add("btn--active");
+  canvas.pixels = 16; // Specifies 16x16 grid
+  canvas.color = "#f00";
+  brush.mode = "normal";
+  brush.color = "rgb(0,0,0)";
   updateSketchpad();
 }
 
 function createSquare() {
-  let elmnt = document.createElement("div");
-  elmnt.className = "square";
-  elmnt.style.backgroundColor = squareColor;
-  return elmnt;
+  // Creates a new div element with square attributes
+  const div = document.createElement("div");
+  div.className = "square";
+  div.style.backgroundColor = canvas.color;
+  return div;
 }
 
 function updateSketchpad() {
-  for (let i = 0; i < squareQty ** 2; i++) {
-    let node = createSquare();
-    let percent = 100;
+  for (let i = 0; i < canvas.pixels ** 2; i++) {
+    const node = createSquare();
+    let percent = 100; // Used for brush shade mode
     node.addEventListener("mouseover", function () {
-      switch (brush) {
+      switch (brush.mode) {
         case "normal":
-          node.style.backgroundColor = brushColor;
+          node.style.backgroundColor = brush.color;
+          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
           break;
         case "color":
           node.style.backgroundColor = randomColor();
+          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
           break;
         case "shade":
-          let newColor = darkerShade(percent);
+          const newColor = darkerShade(percent);
           node.style.backgroundColor = newColor;
+          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
           percent -= 10;
           break;
         case "eraser":
-          node.style.backgroundColor = squareColor;
+          node.style.backgroundColor = canvas.color;
+          sketchpad.style.cursor = 'url("/assets/images/eraser.cur"), auto';
           break;
       }
     });
     sketchpad.appendChild(node);
-    sketchpad.style.gridTemplateRows = `repeat(${squareQty}, 1fr)`;
-    sketchpad.style.gridTemplateColumns = `repeat(${squareQty}, 1fr)`;
+    sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr)`;
+    sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
+  }
+}
+
+function clearSketchpad() {
+  // Destroys canvas child nodes
+  while (sketchpad.firstChild) {
+    sketchpad.removeChild(sketchpad.firstChild);
   }
 }
 
 // Color functions
 function randomColor() {
   const generateRGBValue = () => Math.trunc(Math.random() * 255) + 1;
-  let red = generateRGBValue();
-  let blue = generateRGBValue();
-  let green = generateRGBValue();
-  let backgroundColor = `rgb(${red},${blue},${green})`;
-  return backgroundColor;
+  return `rgb(${generateRGBValue()},${generateRGBValue()},${generateRGBValue()})`;
 }
-
 function darkerShade(percent) {
-  let rgbValue = (percent / 100) * 255;
+  // Starts from white and shades until black
+  const rgbValue = (percent / 100) * 255;
   return `rgb(${rgbValue},${rgbValue},${rgbValue})`;
 }
 
 // Button functionalities
 clearBtn.addEventListener("click", function () {
-  while (sketchpad.firstChild) {
-    sketchpad.removeChild(sketchpad.firstChild);
-  }
+  clearSketchpad();
   updateSketchpad();
 });
-
-normalBtn.addEventListener("click", function () {
-  if (brush !== "normal") {
-    colorBtn.classList.remove("btn--active");
-    shadeBtn.classList.remove("btn--active");
-    eraserBtn.classList.remove("btn--active");
-  }
-  brush = "normal";
-  updateSketchpad();
-  normalBtn.classList.add("btn--active");
-});
-
-colorBtn.addEventListener("click", function () {
-  if (brush !== "color") {
-    normalBtn.classList.remove("btn--active");
-    shadeBtn.classList.remove("btn--active");
-    eraserBtn.classList.remove("btn--active");
-  }
-  brush = "color";
-  updateSketchpad();
-  colorBtn.classList.add("btn--active");
-});
-
-shadeBtn.addEventListener("click", function () {
-  if (brush !== "shade") {
-    normalBtn.classList.remove("btn--active");
-    colorBtn.classList.remove("btn--active");
-    eraserBtn.classList.remove("btn--active");
-  }
-  brush = "shade";
-  updateSketchpad();
-  shadeBtn.classList.add("btn--active");
-});
-
-eraserBtn.addEventListener("click", function () {
-  if (brush !== "eraser") {
-    normalBtn.classList.remove("btn--active");
-    colorBtn.classList.remove("btn--active");
-    shadeBtn.classList.remove("btn--active");
-  }
-  brush = "eraser";
-  updateSketchpad();
-  eraserBtn.classList.add("btn--active");
-});
+for (const mode of modeBtns) {
+  mode.addEventListener("click", function () {
+    if (mode.value !== brush.mode) {
+      currentMode.classList.toggle("btn--active");
+      mode.classList.toggle("btn--active");
+    }
+    mode.classList.add("btn--active");
+    currentMode = mode;
+    brush.mode = mode.value;
+    updateSketchpad();
+  });
+}
 
 // Input functionalities
-squareQtyInput.addEventListener("blur", function () {
-  while (sketchpad.firstChild) {
-    sketchpad.removeChild(sketchpad.firstChild);
-  }
-  if (squareQtyInput.value <= 100) {
-    squareQty = squareQtyInput.value;
+canvasPixelsIpt.addEventListener("blur", function () {
+  clearSketchpad();
+  if (canvasPixelsIpt.value <= 100) {
+    canvas.pixels = canvasPixelsIpt.value;
     updateSketchpad();
   } else {
     alert("Number is above 100!");
-    squareQtyInput.value = squareQty;
+    canvasPixelsIpt.value = canvas.pixels;
     updateSketchpad();
   }
 });
-
-squareColorInput.addEventListener("blur", function () {
-  while (sketchpad.firstChild) {
-    sketchpad.removeChild(sketchpad.firstChild);
-  }
-  squareColor = squareColorInput.value;
+canvasColorIpt.addEventListener("blur", function () {
+  clearSketchpad();
+  canvas.color = canvasColorIpt.value;
   updateSketchpad();
 });
-
-brushColorInput.addEventListener("blur", function () {
-  brushColor = brushColorInput.value;
+brushColorIpt.addEventListener("blur", function () {
+  brush.color = brushColorIpt.value;
 });
 
 // Main code execution
