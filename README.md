@@ -2,7 +2,7 @@
 
 ## Demo Preview
 
-![Demo Preview](/assets/images/demo-preview.png)
+![Demo Preview](/assets/images/demo-preview.PNG)
 
 Random drawing of a funnel
 
