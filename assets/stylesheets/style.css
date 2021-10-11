@@ -45,6 +45,9 @@ iframe {
   margin: 12px auto;
   font-size: 1rem;
 }
+#main b {
+  font-weight: 600;
+}
 #title {
   font-size: 3.2em;
 }

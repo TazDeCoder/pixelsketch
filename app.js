@@ -26,15 +26,9 @@ const brush = {
 };
 
 function init() {
-  // Reset conditons
   currentMode = normalBtn;
   currentMode.classList.add("btn--active");
-  canvas.pixels = 16; // Specifies 16x16 grid
-  canvas.color = "#f00";
-  brush.mode = "normal";
-  brush.color = "rgb(0,0,0)";
-  updateSketchpad();
-  updateBrushMode();
+  updateCanvas();
 }
 
 function createSquare() {
@@ -61,32 +55,45 @@ function clearSketchpad() {
   }
 }
 
+function resetSketchpad() {
+  clearSketchpad();
+  updateSketchpad();
+}
+
+function setCursor(cursorName = "brush") {
+  sketchpad.style.cursor = `url('/assets/images/${cursorName}.cur'), auto`;
+}
+
 function updateBrushMode() {
-  for (const node of sketchpad.getElementsByClassName("square")) {
-    let percent = 100; // Used for brush shade mode
-    node.addEventListener("mouseover", function () {
+  for (const square of sketchpad.getElementsByClassName("square")) {
+    const setSquareColor = (color) => (square.style.backgroundColor = color);
+    let percent = 100; // Used for brush.mode shade
+    square.addEventListener("mouseover", function () {
+      setCursor();
       switch (brush.mode) {
         case "normal":
-          node.style.backgroundColor = brush.color;
-          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
+          setSquareColor(brush.color);
           break;
         case "color":
-          node.style.backgroundColor = randomColor();
-          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
+          setSquareColor(randomColor());
           break;
         case "shade":
-          const newColor = darkerShade(percent);
-          node.style.backgroundColor = newColor;
-          sketchpad.style.cursor = 'url("/assets/images/brush.cur"), auto';
+          const shadeColor = darkerShade(percent);
+          setSquareColor(shadeColor);
           percent -= 10;
           break;
         case "eraser":
-          node.style.backgroundColor = canvas.color;
-          sketchpad.style.cursor = 'url("/assets/images/eraser.cur"), auto';
+          setSquareColor(canvas.color);
+          setCursor("eraser");
           break;
       }
     });
   }
+}
+
+function updateCanvas() {
+  updateSketchpad();
+  updateBrushMode();
 }
 
 // Color functions
@@ -102,70 +109,59 @@ function darkerShade(percent) {
 
 // Button functionalities
 clearBtn.addEventListener("click", function () {
-  clearSketchpad();
-  updateSketchpad();
+  currentMode.classList.remove("btn--active");
+  resetSketchpad();
 });
 for (const mode of modeBtns) {
   mode.addEventListener("click", function () {
-    if (mode.value !== brush.mode) currentMode.classList.toggle("btn--active");
-    mode.classList.add("btn--active");
-    currentMode = mode;
+    if (mode.value !== brush.mode) currentMode.classList.remove("btn--active");
     brush.mode = mode.value;
-    updateSketchpad();
-    updateBrushMode();
+    currentMode = mode;
+    currentMode.classList.add("btn--active");
+    updateCanvas();
   });
 }
 // --- KEYBOARD SUPPORT
 document.addEventListener("keydown", function (e) {
+  let mode;
   switch (e.key) {
-    case "b":
+    case "q":
       brush.mode = "normal";
-      if (currentMode.value !== brush.mode)
-        currentMode.classList.toggle("btn--active");
-      currentMode = normalBtn;
-      currentMode.classList.add("btn--active");
+      mode = normalBtn;
       break;
-    case "c":
+    case "w":
       brush.mode = "color";
-      if (currentMode.value !== brush.mode)
-        currentMode.classList.toggle("btn--active");
-      currentMode = colorBtn;
-      currentMode.classList.add("btn--active");
-      break;
-    case "s":
-      brush.mode = "shade";
-      if (currentMode.value !== brush.mode)
-        currentMode.classList.toggle("btn--active");
-      currentMode = shadeBtn;
-      currentMode.classList.add("btn--active");
+      mode = colorBtn;
       break;
     case "e":
-      brush.mode = "eraser";
-      if (currentMode.value !== brush.mode)
-        currentMode.classList.toggle("btn--active");
-      currentMode = eraserBtn;
-      currentMode.classList.add("btn--active");
+      brush.mode = "shade";
+      mode = shadeBtn;
       break;
-
-      updateSketchpad();
-      updateBrushMode();
+    case "d":
+      brush.mode = "eraser";
+      mode = eraserBtn;
+      break;
+  }
+  if (currentMode.value !== brush.mode) {
+    currentMode.classList.remove("btn--active");
+    currentMode = mode;
+    currentMode.classList.add("btn--active");
+    updateCanvas();
   }
 });
 
 // Input functionalities
 canvasPixelsIpt.addEventListener("blur", function () {
-  clearSketchpad();
   if (canvasPixelsIpt.value <= 100) canvas.pixels = canvasPixelsIpt.value;
   else {
     alert("Number is above 100!");
     canvasPixelsIpt.value = canvas.pixels;
   }
-  updateSketchpad();
+  resetSketchpad();
 });
 canvasColorIpt.addEventListener("blur", function () {
-  clearSketchpad();
   canvas.color = canvasColorIpt.value;
-  updateSketchpad();
+  resetSketchpad();
 });
 brushColorIpt.addEventListener("blur", function () {
   brush.color = brushColorIpt.value;
