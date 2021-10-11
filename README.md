@@ -18,7 +18,7 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 
 **TASK-LIST:**
 
-- [ ] Keyboard Support
+- [x] Keyboard Support
 - [ ] Save Sketchpad
 - [ ] Download Sketch
 
