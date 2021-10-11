@@ -115,6 +115,42 @@ for (const mode of modeBtns) {
     updateBrushMode();
   });
 }
+// --- KEYBOARD SUPPORT
+document.addEventListener("keydown", function (e) {
+  switch (e.key) {
+    case "b":
+      brush.mode = "normal";
+      if (currentMode.value !== brush.mode)
+        currentMode.classList.toggle("btn--active");
+      currentMode = normalBtn;
+      currentMode.classList.add("btn--active");
+      break;
+    case "c":
+      brush.mode = "color";
+      if (currentMode.value !== brush.mode)
+        currentMode.classList.toggle("btn--active");
+      currentMode = colorBtn;
+      currentMode.classList.add("btn--active");
+      break;
+    case "s":
+      brush.mode = "shade";
+      if (currentMode.value !== brush.mode)
+        currentMode.classList.toggle("btn--active");
+      currentMode = shadeBtn;
+      currentMode.classList.add("btn--active");
+      break;
+    case "e":
+      brush.mode = "eraser";
+      if (currentMode.value !== brush.mode)
+        currentMode.classList.toggle("btn--active");
+      currentMode = eraserBtn;
+      currentMode.classList.add("btn--active");
+      break;
+
+      updateSketchpad();
+      updateBrushMode();
+  }
+});
 
 // Input functionalities
 canvasPixelsIpt.addEventListener("blur", function () {
