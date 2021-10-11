@@ -34,6 +34,7 @@ function init() {
   brush.mode = "normal";
   brush.color = "rgb(0,0,0)";
   updateSketchpad();
+  updateBrushMode();
 }
 
 function createSquare() {
@@ -47,6 +48,21 @@ function createSquare() {
 function updateSketchpad() {
   for (let i = 0; i < canvas.pixels ** 2; i++) {
     const node = createSquare();
+    sketchpad.appendChild(node);
+    sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr`;
+    sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
+  }
+}
+
+function clearSketchpad() {
+  // Destroys canvas child nodes
+  while (sketchpad.firstChild) {
+    sketchpad.removeChild(sketchpad.firstChild);
+  }
+}
+
+function updateBrushMode() {
+  for (const node of sketchpad.getElementsByClassName("square")) {
     let percent = 100; // Used for brush shade mode
     node.addEventListener("mouseover", function () {
       switch (brush.mode) {
@@ -70,16 +86,6 @@ function updateSketchpad() {
           break;
       }
     });
-    sketchpad.appendChild(node);
-    sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr)`;
-    sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
-  }
-}
-
-function clearSketchpad() {
-  // Destroys canvas child nodes
-  while (sketchpad.firstChild) {
-    sketchpad.removeChild(sketchpad.firstChild);
   }
 }
 
@@ -101,28 +107,24 @@ clearBtn.addEventListener("click", function () {
 });
 for (const mode of modeBtns) {
   mode.addEventListener("click", function () {
-    if (mode.value !== brush.mode) {
-      currentMode.classList.toggle("btn--active");
-      mode.classList.toggle("btn--active");
-    }
+    if (mode.value !== brush.mode) currentMode.classList.toggle("btn--active");
     mode.classList.add("btn--active");
     currentMode = mode;
     brush.mode = mode.value;
     updateSketchpad();
+    updateBrushMode();
   });
 }
 
 // Input functionalities
 canvasPixelsIpt.addEventListener("blur", function () {
   clearSketchpad();
-  if (canvasPixelsIpt.value <= 100) {
-    canvas.pixels = canvasPixelsIpt.value;
-    updateSketchpad();
-  } else {
+  if (canvasPixelsIpt.value <= 100) canvas.pixels = canvasPixelsIpt.value;
+  else {
     alert("Number is above 100!");
     canvasPixelsIpt.value = canvas.pixels;
-    updateSketchpad();
   }
+  updateSketchpad();
 });
 canvasColorIpt.addEventListener("blur", function () {
   clearSketchpad();
