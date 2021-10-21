@@ -1,19 +1,21 @@
 "use strict";
 
-// Selecting elements
-const sketchpad = document.querySelector("#sketchpad");
+// Selecting HTML elements
 // Buttons
-// --- BRUSH MODES
+// --- MODES ---
 const modeBtns = document
   .querySelector("#btn--modes")
   .getElementsByClassName("btn");
-const [normalBtn, colorBtn, shadeBtn, eraserBtn] = modeBtns;
-const clearBtn = document.querySelector("#btn--clear");
+const [btnNormal, btnColor, btnShade, btnEraser] = modeBtns;
+// --- OTHERS ---
+const btnClear = document.querySelector("#btn--clear");
 // Inputs
-// --- SETTINGS
-const canvasPixelsIpt = document.querySelector("#canvas--pixels");
-const canvasColorIpt = document.querySelector("#canvas--color");
-const brushColorIpt = document.querySelector("#brush--color");
+// --- SETTINGS ---
+const iptCanvasPixels = document.querySelector("#canvas--pixels");
+const iptCanvasColor = document.querySelector("#canvas--color");
+const iptBrushColor = document.querySelector("#brush--color");
+// Misc.
+const sketchpad = document.querySelector("#sketchpad");
 
 // Initial variables
 let currentMode;
@@ -31,14 +33,13 @@ const brush = {
 
 function init() {
   buildSketchpad();
-  updateBrushMode();
+  updateBrushMode(btnNormal);
 }
 
-// Sketchpad functions
+// Ui Functions
 function resetSketchpad() {
   destroySketchpad();
   buildSketchpad();
-  updateSketchpad();
 }
 
 function destroySketchpad() {
@@ -49,92 +50,90 @@ function destroySketchpad() {
 }
 
 function buildSketchpad() {
-  for (let i = 0; i < canvas.pixels ** 2; i++) {
-    const div = document.createElement("div");
-    div.className = "square";
-    div.style.backgroundColor = canvas.color;
-    sketchpad.appendChild(div);
-    sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr`;
-    sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
-  }
-}
+  const setBrushCursor = (curName = "brush") =>
+    (sketchpad.style.cursor = `url('/assets/images/${curName}.cur'), auto`);
 
-function updateSketchpad() {
-  const setBrushCursor = (cursorName = "brush") =>
-    (sketchpad.style.cursor = `url('/assets/images/${cursorName}.cur'), auto`);
-  for (const square of sketchpad.getElementsByClassName("square")) {
-    const setSquareColor = (color) => (square.style.backgroundColor = color);
-    let percent = 100; // Used for brush.mode shade
-    square.addEventListener("mouseover", function () {
+  for (let i = 0; i < canvas.pixels ** 2; i++) {
+    let percent = 100; // Used for brush.mode case "shade"
+    const div = document.createElement("div");
+    div.classList.add("square");
+    div.style.backgroundColor = canvas.color;
+    div.addEventListener("mouseover", function () {
       setBrushCursor();
       switch (brush.mode) {
         case "normal":
-          return setSquareColor(brush.color);
+          return (div.style.backgroundColor = brush.color);
         case "color":
           const generateRGBValue = () => Math.trunc(Math.random() * 255) + 1;
           const randomColor = `rgb(${generateRGBValue()},${generateRGBValue()},${generateRGBValue()})`;
-          setSquareColor(randomColor);
-          break;
+          return (div.style.backgroundColor = randomColor);
         case "shade":
-          // Starts from white and shades until black
+          // Starts from white and shades until black (100%)
           const rgbValue = (percent / 100) * 255;
           const shadeColor = `rgb(${rgbValue},${rgbValue},${rgbValue})`;
-          setSquareColor(shadeColor);
-          percent -= 10;
-          break;
+          div.style.backgroundColor = shadeColor;
+          return (percent -= 10);
         case "eraser":
-          setSquareColor(canvas.color);
-          setBrushCursor("eraser");
-          break;
+          div.style.backgroundColor = canvas.color;
+          return setBrushCursor("eraser");
       }
     });
+    sketchpad.appendChild(div);
   }
+  sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr`;
+  sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
 }
 
-// Brush functions
-function updateBrushMode(mode = normalBtn) {
+function updateSketchpad() {
+  for (const square of sketchpad.getElementsByClassName("square"))
+    square.style.backgroundColor = canvas.color;
+}
+
+function updateBrushMode(mode) {
   if (mode.value !== brush.mode) currentMode.classList.remove("btn--active");
   brush.mode = mode.value;
   currentMode = mode;
   currentMode.classList.add("btn--active");
-  updateSketchpad();
 }
 
-// Button functionalities
+// Event Handlers
 for (const mode of modeBtns) {
   mode.addEventListener("click", function () {
     updateBrushMode(mode);
   });
 }
 
-clearBtn.addEventListener("click", resetSketchpad);
+btnClear.addEventListener("click", resetSketchpad);
 
-// --- KEYBOARD SUPPORT
-document.addEventListener("keyup", function (e) {
-  switch (e.key) {
-    case "q":
-      return updateBrushMode();
-    case "w":
-      return updateBrushMode(colorBtn);
-    case "e":
-      return updateBrushMode(shadeBtn);
-    case "d":
-      return updateBrushMode(eraserBtn);
-  }
-});
-
-// Input functionalities
-canvasPixelsIpt.addEventListener("blur", function () {
-  if (canvasPixelsIpt.value <= 100) canvas.pixels = canvasPixelsIpt.value;
+iptCanvasPixels.addEventListener("blur", function () {
+  // Only accepts input if it falls between 1 to 101
+  if (iptCanvasPixels.value > 1 && iptCanvasPixels.value < 101)
+    canvas.pixels = iptCanvasPixels.value;
   else {
+    // Alerts user that input value is too high i.e. above 100
     alert("Number is above 100!");
-    canvasPixelsIpt.value = canvas.pixels;
+    iptCanvasPixels.value = canvas.pixels;
   }
   resetSketchpad();
 });
-canvasColorIpt.addEventListener("blur", function () {
-  canvas.color = canvasColorIpt.value;
+iptCanvasColor.addEventListener("blur", function () {
+  canvas.color = iptCanvasColor.value;
+  updateSketchpad();
 });
-brushColorIpt.addEventListener("blur", function () {
-  brush.color = brushColorIpt.value;
+iptBrushColor.addEventListener("blur", function () {
+  brush.color = iptBrushColor.value;
+});
+
+// --- KEYBOARD SUPPORT ---
+document.addEventListener("keyup", function (e) {
+  switch (e.key) {
+    case "q":
+      return updateBrushMode(btnNormal);
+    case "w":
+      return updateBrushMode(btnColor);
+    case "e":
+      return updateBrushMode(btnShade);
+    case "d":
+      return updateBrushMode(btnEraser);
+  }
 });
