@@ -2,9 +2,11 @@
 
 ## Demo Preview
 
-![Demo Preview](/assets/images/demo-preview.PNG)
+![Demo Preview](/assets/images/demo-preview.png)
 
-Random drawing of a funnel
+## Screenshots
+
+![Showcasing different brush modes](/assets/images/brush-modes.png)
 
 ## Description
 
@@ -15,12 +17,12 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 - Modern User Interface
 - Simple Brush Modes
 - Customisable Sketchpad
+- **NEW**: Keyboard Support
 
 **TASK-LIST:**
 
 - [x] Keyboard Support
-- [ ] Save Sketchpad
-- [ ] Download Sketch
+- [ ] Downloadable Sketch
 
 ## Installation
 
