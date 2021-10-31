@@ -2,23 +2,26 @@
 
 // Selecting HTML elements
 // Buttons
-// --- MODES ---
-const modeBtns = document
-  .querySelector("#btn--modes")
-  .getElementsByClassName("btn");
-const [btnNormal, btnColor, btnShade, btnEraser] = modeBtns;
-// --- OTHERS ---
-const btnClear = document.querySelector("#btn--clear");
+const btnNormal = document.querySelector(".selection__btn--normal");
+const btnColor = document.querySelector(".selection__btn--color");
+const btnShade = document.querySelector(".selection__btn--shade");
+const btnEraser = document.querySelector(".selection__btn--eraser");
+const btnClear = document.querySelector(".btn--clear");
 // Inputs
-// --- SETTINGS ---
-const iptCanvasPixels = document.querySelector("#canvas--pixels");
-const iptCanvasColor = document.querySelector("#canvas--color");
-const iptBrushColor = document.querySelector("#brush--color");
+const inputCanvasPixels = document.querySelector(
+  ".options__input--canvas-pixels"
+);
+const inputBrushColor = document.querySelector(".options__input--brush-color");
+const inputCanvasColor = document.querySelector(
+  ".options__input--canvas-color"
+);
 // Misc.
-const sketchpad = document.querySelector("#sketchpad");
+const sketchpad = document.querySelector(".sketchpad");
+// Parents
+const selectionModes = document.querySelector(".selection--modes");
 
 // Initial variables
-let currentMode;
+let currMode;
 
 const canvas = {
   pixels: 16,
@@ -90,38 +93,43 @@ function updateSketchpad() {
 }
 
 function updateBrushMode(mode) {
-  if (mode.value !== brush.mode) currentMode.classList.remove("btn--active");
+  if (mode.value !== brush.mode) currMode.classList.remove("btn--active");
   brush.mode = mode.value;
-  currentMode = mode;
-  currentMode.classList.add("btn--active");
+  currMode = mode;
+  currMode.classList.add("btn--active");
 }
 
 // Event Handlers
-for (const mode of modeBtns) {
-  mode.addEventListener("click", function () {
-    updateBrushMode(mode);
-  });
-}
+selectionModes.addEventListener("click", function (e) {
+  const clicked = e.target;
+  if (clicked.classList.contains("selection__btn")) {
+    const [...btns] = this.querySelectorAll(".selection__btn");
+    btns.forEach((btn) => btn.classList.remove("selection__btn--active"));
+    clicked.classList.add("selection__btn--active");
+    currMode = clicked;
+    brush.mode = clicked.value;
+  }
+});
 
 btnClear.addEventListener("click", resetSketchpad);
 
-iptCanvasPixels.addEventListener("blur", function () {
+inputCanvasPixels.addEventListener("blur", function () {
   // Only accepts input if it falls between 1 to 101
-  if (iptCanvasPixels.value > 1 && iptCanvasPixels.value < 101)
-    canvas.pixels = iptCanvasPixels.value;
+  if (inputCanvasPixels.value > 1 && inputCanvasPixels.value < 101)
+    canvas.pixels = inputCanvasPixels.value;
   else {
     // Alerts user that input value is too high i.e. above 100
     alert("Number is above 100!");
-    iptCanvasPixels.value = canvas.pixels;
+    inputCanvasPixels.value = canvas.pixels;
   }
   resetSketchpad();
 });
-iptCanvasColor.addEventListener("blur", function () {
-  canvas.color = iptCanvasColor.value;
+inputCanvasColor.addEventListener("blur", function () {
+  canvas.color = inputCanvasColor.value;
   updateSketchpad();
 });
-iptBrushColor.addEventListener("blur", function () {
-  brush.color = iptBrushColor.value;
+inputBrushColor.addEventListener("blur", function () {
+  brush.color = inputBrushColor.value;
 });
 
 // --- KEYBOARD SUPPORT ---

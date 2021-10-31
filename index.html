@@ -18,48 +18,58 @@
       href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@500;700&display=swap"
       rel="stylesheet"
     />
+    <script defer src="./app.js"></script>
     <title>Etch-a-Sketch</title>
   </head>
   <body>
-    <main id="main">
-      <h1 id="title">Etch-a-Sketch</h1>
-      <button class="btn" id="btn--clear">Clear</button>
-      <section class="btn-selection" id="btn--modes">
-        <button class="btn btn--active" id="btn--normal" value="normal">
-          Normal <b>(q)</b>
+    <main class="main">
+      <h1 class="main__title">Etch-a-Sketch</h1>
+      <button class="btn btn--clear">Clear</button>
+      <section class="selection selection--modes">
+        <button
+          value="normal"
+          class="selection__btn selection__btn--active selection__btn--normal"
+        >
+          Normal <b class="bold">(q)</b>
         </button>
-        <button class="btn" id="btn--color" value="color">
-          Color <b>(w)</b>
+        <button value="color" class="selection__btn selection__btn--color">
+          Color <b class="bold">(w)</b>
         </button>
-        <button class="btn" id="btn--shade" value="shade">
-          Shade <b>(e)</b>
+        <button value="shade" class="selection__btn selection__btn--shade">
+          Shade <b class="bold">(e)</b>
         </button>
-        <button class="btn" id="btn--eraser" value="eraser">
-          Eraser <b>(d)</b>
+        <button value="eraser" class="selection__btn selection__btn--eraser">
+          Eraser <b class="bold">(d)</b>
         </button>
       </section>
-      <div id="sketchpad"></div>
-      <section class="ipt-selection">
-        <h2>Options</h2>
-        <div class="container">
-          <label for="square-qty"
-            >Change Layout Dimension Per Side (squares)</label
-          >
+      <div class="sketchpad"></div>
+      <section class="options options--input">
+        <h2 class="options__title">Options</h2>
+        <div class="options__container">
+          <p class="options__label">
+            Change Layout Dimension Per Side (squares)
+          </p>
           <input
-            id="canvas--pixels"
+            class="options__input options__input--canvas-pixels"
             type="number"
-            title="100 is the Limit :)"
+            value="16"
             min="1"
             max="100"
-            value="16"
           />
-          <label for="canvas--color">Change Brush Color</label>
-          <input id="brush--color" type="color" value="#000000" />
-          <label for="canvas--color">Change Background Color</label>
-          <input id="canvas--color" type="color" value="#ff0000" />
+          <p class="options__label">Change Brush Color</p>
+          <input
+            class="options__input options__input--brush-color"
+            type="color"
+            value="#000000"
+          />
+          <p class="options__label">Change Background Color</p>
+          <input
+            class="options__input options__input--canvas-color"
+            type="color"
+            value="#ff0000"
+          />
         </div>
       </section>
     </main>
-    <script src="./app.js"></script>
   </body>
 </html>
