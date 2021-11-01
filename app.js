@@ -44,11 +44,14 @@ const canvas = {
 function init() {
   // Reset app
   canvas.pixels = 16;
-  canvas.color = "#f00";
+  canvas.color = "#f7f7f7";
   canvas.brush.mode = "normal";
-  canvas.brush.color = "rgb(0,0,0)";
+  canvas.brush.color = "#000000";
   // Clean-up UI
-  updateBrushMode.bind(btnNormal);
+  inputCanvasPixels.value = canvas.pixels;
+  inputBrushColor.value = canvas.brush.color;
+  inputCanvasColor.value = canvas.color;
+  updateBrushMode.call(btnNormal);
   buildSketchpad();
 }
 
@@ -65,44 +68,53 @@ function destroySketchpad() {
 }
 
 function buildSketchpad() {
-  const setBrushCursor = (curName = "brush") =>
-    (sketchpad.style.cursor = `url('/assets/images/${curName}.cur'), auto`);
-
   for (let i = 0; i < canvas.pixels ** 2; i++) {
-    let percent = 100; // Used for brush.mode case "shade"
     const div = document.createElement("div");
     div.classList.add("square");
     div.style.backgroundColor = canvas.color;
-    div.addEventListener("mouseover", function () {
-      setBrushCursor();
-      switch (canvas.brush.mode) {
-        case "normal":
-          return (div.style.backgroundColor = canvas.brush.color);
-        case "color":
-          const generateRGBVal = () => Math.trunc(Math.random() * 255) + 1;
-          const randColor = `rgb(${generateRGBVal()},${generateRGBVal()},${generateRGBVal()})`;
-          return (div.style.backgroundColor = randColor);
-        case "shade":
-          // Starts from white and shades until black (100%)
-          const rgbVal = (percent / 100) * 255;
-          const shadeColor = `rgb(${rgbVal},${rgbVal},${rgbVal})`;
-          div.style.backgroundColor = shadeColor;
-          return (percent -= 10);
-        case "eraser":
-          div.style.backgroundColor = canvas.color;
-          return setBrushCursor("eraser");
-      }
-    });
+    div.setAttribute("data-percent", "100");
+    div.addEventListener("mouseover", handleBrushHover);
     sketchpad.appendChild(div);
   }
   sketchpad.style.gridTemplateRows = `repeat(${canvas.pixels}, 1fr`;
   sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
 }
 
-function updateSketchpad() {
-  sketchpad.querySelectorAll(".square").forEach(function (s) {
-    s.style.backgroundColor = canvas.color;
-  });
+function setBrushCursor(curName) {
+  sketchpad.style.cursor = `url('/assets/images/${curName}.cur'), auto`;
+}
+
+////////////////////////////////////////////////
+////// App Logic
+///////////////////////////////////////////////
+
+function handleBrushHover() {
+  setBrushCursor("brush");
+  switch (canvas.brush.mode) {
+    case "normal":
+      this.style.backgroundColor = canvas.brush.color;
+      break;
+    case "color":
+      this.style.backgroundColor = generateRandColor(0, 255);
+      break;
+    case "shade":
+      this.style.backgroundColor = generateShadeColor(this.dataset.percent);
+      this.dataset.percent -= 10;
+      break;
+    case "eraser":
+      this.style.backgroundColor = canvas.color;
+      setBrushCursor("eraser");
+  }
+}
+
+function generateRandColor(min, max) {
+  const rgbVal = () => Math.trunc(Math.random() * (max - min)) + min;
+  return `rgb(${rgbVal()},${rgbVal()},${rgbVal()})`;
+}
+
+function generateShadeColor(val) {
+  const rgbVal = (val / 100) * 255;
+  return `rgb(${rgbVal},${rgbVal},${rgbVal})`;
 }
 
 ////////////////////////////////////////////////
@@ -118,32 +130,36 @@ function updateBrushMode() {
 
 selectionModes.addEventListener("click", function (e) {
   const clicked = e.target;
+  if (!clicked) return;
   if (clicked.classList.contains("selection__btn"))
     updateBrushMode.call(clicked);
 });
-
-btnClear.addEventListener("click", resetSketchpad);
 
 inputCanvasPixels.addEventListener("blur", function () {
   // Only accepts input if it falls between 1 to 101
   if (inputCanvasPixels.value > 1 && inputCanvasPixels.value < 101)
     canvas.pixels = inputCanvasPixels.value;
   else {
-    // Alerts user that input value is too high i.e. above 100
     alert("Number is above 100!");
     inputCanvasPixels.value = canvas.pixels;
   }
   resetSketchpad();
 });
-inputCanvasColor.addEventListener("blur", function () {
+
+inputCanvasColor.addEventListener("input", function () {
   canvas.color = inputCanvasColor.value;
-  updateSketchpad();
+  const [...squares] = sketchpad.querySelectorAll(".square");
+  squares.forEach((s) => (s.style.backgroundColor = canvas.color));
 });
-inputBrushColor.addEventListener("blur", function () {
+
+inputBrushColor.addEventListener("input", function () {
   canvas.brush.color = inputBrushColor.value;
 });
 
+btnClear.addEventListener("click", resetSketchpad);
+
 // --- KEYBOARD SUPPORT ---
+
 document.addEventListener("keyup", function (e) {
   switch (e.key) {
     case "q":
