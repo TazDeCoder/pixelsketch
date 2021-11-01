@@ -27,47 +27,53 @@
       <button class="btn btn--clear bold">Clear</button>
       <section class="selection selection--modes">
         <button
-          value="normal"
           class="selection__btn selection__btn--active selection__btn--normal"
+          value="normal"
         >
-          Normal <b class="bold">(q)</b>
+          Normal <br /><b class="bold">(q)</b>
         </button>
-        <button value="color" class="selection__btn selection__btn--color">
-          Color <b class="bold">(w)</b>
+        <button class="selection__btn selection__btn--color" value="color">
+          Color <br /><b class="bold">(w)</b>
         </button>
-        <button value="shade" class="selection__btn selection__btn--shade">
-          Shade <b class="bold">(e)</b>
+        <button class="selection__btn selection__btn--shade" value="shade">
+          Shade <br /><b class="bold">(e)</b>
         </button>
-        <button value="eraser" class="selection__btn selection__btn--eraser">
-          Eraser <b class="bold">(d)</b>
+        <button class="selection__btn selection__btn--eraser" value="eraser">
+          Eraser <br /><b class="bold">(d)</b>
         </button>
       </section>
       <div class="sketchpad"></div>
       <section class="options options--input">
         <h2 class="options__title">Options</h2>
         <div class="options__container">
-          <p class="options__label">
-            Change Layout Dimension Per Side (squares)
-          </p>
-          <input
-            class="options__input options__input--canvas-pixels"
-            type="number"
-            value="16"
-            min="1"
-            max="100"
-          />
-          <p class="options__label">Change Brush Color</p>
-          <input
-            class="options__input options__input--brush-color"
-            type="color"
-            value="#000000"
-          />
-          <p class="options__label">Change Background Color</p>
-          <input
-            class="options__input options__input--canvas-color"
-            type="color"
-            value="#ff0000"
-          />
+          <div class="options__item">
+            <p class="options__label">
+              Change Layout Dimension Per Side (squares)
+            </p>
+            <input
+              class="options__input options__input--canvas-pixels"
+              type="number"
+              value="16"
+              min="1"
+              max="100"
+            />
+          </div>
+          <div class="options__item">
+            <p class="options__label">Change Brush Color</p>
+            <input
+              class="options__input options__input--brush-color"
+              type="color"
+              value="#000000"
+            />
+          </div>
+          <div class="options__item">
+            <p class="options__label">Change Background Color</p>
+            <input
+              class="options__input options__input--canvas-color"
+              type="color"
+              value="#ff0000"
+            />
+          </div>
         </div>
       </section>
     </main>
