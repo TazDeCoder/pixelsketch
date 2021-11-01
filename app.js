@@ -1,6 +1,9 @@
 "use strict";
 
-// Selecting HTML elements
+////////////////////////////////////////////////
+////// Selecting HTML elements
+///////////////////////////////////////////////
+
 // Buttons
 const btnNormal = document.querySelector(".selection__btn--normal");
 const btnColor = document.querySelector(".selection__btn--color");
@@ -15,31 +18,40 @@ const inputBrushColor = document.querySelector(".options__input--brush-color");
 const inputCanvasColor = document.querySelector(
   ".options__input--canvas-color"
 );
-// Misc.
-const sketchpad = document.querySelector(".sketchpad");
 // Parents
+const sketchpad = document.querySelector(".sketchpad");
 const selectionModes = document.querySelector(".selection--modes");
 
-// Initial variables
-let currMode;
+////////////////////////////////////////////////
+////// Global variables
+///////////////////////////////////////////////
 
 const canvas = {
-  pixels: 16,
-  color: "#f00",
+  pixels: 0,
+  color: "",
+  brush: {
+    mode: "",
+    color: "",
+  },
 };
-const brush = {
-  mode: "normal",
-  color: "rgb(0,0,0)",
-};
+
+////////////////////////////////////////////////
+////// App UI Setup
+///////////////////////////////////////////////
 
 (() => init())();
 
 function init() {
+  // Reset app
+  canvas.pixels = 16;
+  canvas.color = "#f00";
+  canvas.brush.mode = "normal";
+  canvas.brush.color = "rgb(0,0,0)";
+  // Clean-up UI
+  updateBrushMode.bind(btnNormal);
   buildSketchpad();
-  updateBrushMode(btnNormal);
 }
 
-// Ui Functions
 function resetSketchpad() {
   destroySketchpad();
   buildSketchpad();
@@ -63,17 +75,17 @@ function buildSketchpad() {
     div.style.backgroundColor = canvas.color;
     div.addEventListener("mouseover", function () {
       setBrushCursor();
-      switch (brush.mode) {
+      switch (canvas.brush.mode) {
         case "normal":
-          return (div.style.backgroundColor = brush.color);
+          return (div.style.backgroundColor = canvas.brush.color);
         case "color":
-          const generateRGBValue = () => Math.trunc(Math.random() * 255) + 1;
-          const randomColor = `rgb(${generateRGBValue()},${generateRGBValue()},${generateRGBValue()})`;
-          return (div.style.backgroundColor = randomColor);
+          const generateRGBVal = () => Math.trunc(Math.random() * 255) + 1;
+          const randColor = `rgb(${generateRGBVal()},${generateRGBVal()},${generateRGBVal()})`;
+          return (div.style.backgroundColor = randColor);
         case "shade":
           // Starts from white and shades until black (100%)
-          const rgbValue = (percent / 100) * 255;
-          const shadeColor = `rgb(${rgbValue},${rgbValue},${rgbValue})`;
+          const rgbVal = (percent / 100) * 255;
+          const shadeColor = `rgb(${rgbVal},${rgbVal},${rgbVal})`;
           div.style.backgroundColor = shadeColor;
           return (percent -= 10);
         case "eraser":
@@ -88,27 +100,26 @@ function buildSketchpad() {
 }
 
 function updateSketchpad() {
-  for (const square of sketchpad.getElementsByClassName("square"))
-    square.style.backgroundColor = canvas.color;
+  sketchpad.querySelectorAll(".square").forEach(function (s) {
+    s.style.backgroundColor = canvas.color;
+  });
 }
 
-function updateBrushMode(mode) {
-  if (mode.value !== brush.mode) currMode.classList.remove("btn--active");
-  brush.mode = mode.value;
-  currMode = mode;
-  currMode.classList.add("btn--active");
+////////////////////////////////////////////////
+////// Event Handlers
+///////////////////////////////////////////////
+
+function updateBrushMode() {
+  const [...btns] = selectionModes.querySelectorAll(".selection__btn");
+  btns.forEach((btn) => btn.classList.remove("selection__btn--active"));
+  this.classList.add("selection__btn--active");
+  canvas.brush.mode = this.value;
 }
 
-// Event Handlers
 selectionModes.addEventListener("click", function (e) {
   const clicked = e.target;
-  if (clicked.classList.contains("selection__btn")) {
-    const [...btns] = this.querySelectorAll(".selection__btn");
-    btns.forEach((btn) => btn.classList.remove("selection__btn--active"));
-    clicked.classList.add("selection__btn--active");
-    currMode = clicked;
-    brush.mode = clicked.value;
-  }
+  if (clicked.classList.contains("selection__btn"))
+    updateBrushMode.call(clicked);
 });
 
 btnClear.addEventListener("click", resetSketchpad);
@@ -129,19 +140,19 @@ inputCanvasColor.addEventListener("blur", function () {
   updateSketchpad();
 });
 inputBrushColor.addEventListener("blur", function () {
-  brush.color = inputBrushColor.value;
+  canvas.brush.color = inputBrushColor.value;
 });
 
 // --- KEYBOARD SUPPORT ---
 document.addEventListener("keyup", function (e) {
   switch (e.key) {
     case "q":
-      return updateBrushMode(btnNormal);
+      return updateBrushMode.call(btnNormal);
     case "w":
-      return updateBrushMode(btnColor);
+      return updateBrushMode.call(btnColor);
     case "e":
-      return updateBrushMode(btnShade);
+      return updateBrushMode.call(btnShade);
     case "d":
-      return updateBrushMode(btnEraser);
+      return updateBrushMode.call(btnEraser);
   }
 });
