@@ -135,6 +135,8 @@ function generateShadeColor(val) {
 ////// Event Handlers
 ///////////////////////////////////////////////
 
+const hexToDeciConvertor = (hex) => parseInt(hex, 16);
+
 function updateBrushMode() {
   const [...btns] = selectionModes.querySelectorAll(".selection__btn");
   btns.forEach((btn) => btn.classList.remove("selection__btn--active"));
@@ -161,9 +163,16 @@ inputCanvasPixels.addEventListener("blur", function () {
 });
 
 inputCanvasColor.addEventListener("input", function () {
-  canvas.color = inputCanvasColor.value;
+  const colorArr = canvas.color.substr(1).match(/.{1,2}/g);
+  const convertedColorArr = colorArr.map((el) => hexToDeciConvertor(el));
+  const rgbColor = `rgb(${convertedColorArr.join(",").replaceAll(",", ", ")})`;
+
   const [...squares] = sketchpad.querySelectorAll(".square");
-  squares.forEach((s) => (s.style.backgroundColor = canvas.color));
+  squares.forEach((s) => {
+    if (s.style.backgroundColor === rgbColor)
+      s.style.backgroundColor = inputCanvasColor.value;
+  });
+  canvas.color = inputCanvasColor.value;
 });
 
 inputBrushColorPrimary.addEventListener("input", function () {
