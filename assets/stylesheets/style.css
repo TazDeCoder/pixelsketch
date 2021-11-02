@@ -67,6 +67,12 @@ iframe {
   cursor: pointer;
 }
 
+@media only screen and (min-width: 988px) {
+  .main {
+    width: 70%;
+  }
+}
+
 /* 
  * 
  * Selection
@@ -91,7 +97,7 @@ iframe {
   border: 2px solid var(--color-primary-border);
   background-color: var(--color-primary-btn);
   cursor: pointer;
-  transition: all 700ms;
+  transition: all 400ms;
 }
 .selection__btn:hover {
   background-color: var(--color-primary-btn--hover);
@@ -103,6 +109,24 @@ iframe {
   background-color: var(--color-secondary-btn--hover);
 }
 
+@media only screen and (min-width: 701px) {
+  .selection {
+    display: inline-flex;
+    flex-direction: column;
+    width: 20%;
+    height: 50%;
+    font-size: 1.1em;
+  }
+  .selection__btn {
+    max-width: 200px;
+  }
+}
+@media only screen and (min-width: 988px) {
+  .selection {
+    font-size: 1.2em;
+  }
+}
+
 /* Sketchpad */
 .sketchpad {
   display: grid;
@@ -111,6 +135,13 @@ iframe {
   border: 2px solid var(--color-primary-border);
   background-color: #fff;
   cursor: url("/assets/images/brush.cur"), auto;
+}
+
+@media only screen and (min-width: 701px) {
+  .sketchpad {
+    display: inline-grid;
+    width: min(70%, 900px);
+  }
 }
 
 /* 
@@ -151,6 +182,21 @@ iframe {
   margin: 12px auto;
   text-align: center;
   cursor: pointer;
+}
+
+@media only screen and (min-width: 701px) {
+  .options {
+    font-size: 1.1em;
+  }
+  .options__input {
+    font-size: 1em;
+    max-width: 100px;
+  }
+}
+@media only screen and (min-width: 988px) {
+  .options {
+    font-size: 1.2em;
+  }
 }
 
 /* Class modifiers */
