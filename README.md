@@ -1,9 +1,5 @@
 # Etch-a-Sketch
 
-## Demo Preview
-
-![Demo Preview](/assets/images/demo-preview.png)
-
 ## Screenshots
 
 ![Showcasing different brush modes](/assets/images/brush-modes.png)
@@ -17,11 +13,11 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 - Modern User Interface
 - Simple Brush Modes
 - Customisable Sketchpad
-- **NEW**: Keyboard Support
+- Keyboard Support
 
 **TASK-LIST:**
 
-- [x] Keyboard Support
+- [ ] Duo-Pen - nearly implemented!
 - [ ] Downloadable Sketch
 
 ## Installation
