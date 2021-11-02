@@ -32,6 +32,12 @@
         >
           Normal <br /><b class="bold">(q)</b>
         </button>
+        <button
+          class="selection__btn selection__btn--alternate"
+          value="alternate"
+        >
+          Alternate <br /><b class="bold">(a)</b>
+        </button>
         <button class="selection__btn selection__btn--color" value="color">
           Color <br /><b class="bold">(w)</b>
         </button>
@@ -59,11 +65,16 @@
             />
           </div>
           <div class="options__item">
-            <p class="options__label">Change Brush Color</p>
+            <p class="options__label">Change Brush Colors</p>
             <input
-              class="options__input options__input--brush-color"
+              class="options__input options__input--brush-color-primary"
               type="color"
               value="#000000"
+            />
+            <input
+              class="options__input options__input--brush-color-alternate"
+              type="color"
+              value="#ff0000"
             />
           </div>
           <div class="options__item">
@@ -71,7 +82,7 @@
             <input
               class="options__input options__input--canvas-color"
               type="color"
-              value="#ff0000"
+              value="#000000"
             />
           </div>
         </div>

@@ -178,7 +178,8 @@ iframe {
   width: 70%;
 }
 .options__input {
-  width: 15%;
+  display: inline-block;
+  width: 10%;
   margin: 12px auto;
   text-align: center;
   cursor: pointer;

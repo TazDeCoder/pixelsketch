@@ -6,6 +6,7 @@
 
 // Buttons
 const btnNormal = document.querySelector(".selection__btn--normal");
+const btnAlternate = document.querySelector(".selection__btn--alternate");
 const btnColor = document.querySelector(".selection__btn--color");
 const btnShade = document.querySelector(".selection__btn--shade");
 const btnEraser = document.querySelector(".selection__btn--eraser");
@@ -14,7 +15,12 @@ const btnClear = document.querySelector(".btn--clear");
 const inputCanvasPixels = document.querySelector(
   ".options__input--canvas-pixels"
 );
-const inputBrushColor = document.querySelector(".options__input--brush-color");
+const inputBrushColorPrimary = document.querySelector(
+  ".options__input--brush-color-primary"
+);
+const inputBrushColorAlternate = document.querySelector(
+  ".options__input--brush-color-alternate"
+);
 const inputCanvasColor = document.querySelector(
   ".options__input--canvas-color"
 );
@@ -31,7 +37,10 @@ const canvas = {
   color: "",
   brush: {
     mode: "",
-    color: "",
+    color: {
+      primary: "",
+      alternate: "",
+    },
   },
 };
 
@@ -46,10 +55,12 @@ function init() {
   canvas.pixels = 16;
   canvas.color = "#f7f7f7";
   canvas.brush.mode = "normal";
-  canvas.brush.color = "#000000";
+  canvas.brush.color.primary = "#000000";
+  canvas.brush.color.alternate = "#ff0000";
   // Clean-up UI
   inputCanvasPixels.value = canvas.pixels;
-  inputBrushColor.value = canvas.brush.color;
+  inputBrushColorPrimary.value = canvas.brush.color.primary;
+  inputBrushColorAlternate.value = canvas.brush.color.alternate;
   inputCanvasColor.value = canvas.color;
   updateBrushMode.call(btnNormal);
   buildSketchpad();
@@ -92,7 +103,10 @@ function handleBrushHover() {
   setBrushCursor("brush");
   switch (canvas.brush.mode) {
     case "normal":
-      this.style.backgroundColor = canvas.brush.color;
+      this.style.backgroundColor = canvas.brush.color.primary;
+      break;
+    case "alternate":
+      this.style.backgroundColor = canvas.brush.color.alternate;
       break;
     case "color":
       this.style.backgroundColor = generateRandColor(0, 255);
@@ -152,8 +166,12 @@ inputCanvasColor.addEventListener("input", function () {
   squares.forEach((s) => (s.style.backgroundColor = canvas.color));
 });
 
-inputBrushColor.addEventListener("input", function () {
-  canvas.brush.color = inputBrushColor.value;
+inputBrushColorPrimary.addEventListener("input", function () {
+  canvas.brush.color.primary = inputBrushColorPrimary.value;
+});
+
+inputBrushColorAlternate.addEventListener("input", function () {
+  canvas.brush.color.alternate = inputBrushColorAlternate.value;
 });
 
 btnClear.addEventListener("click", resetSketchpad);
@@ -164,6 +182,8 @@ document.addEventListener("keyup", function (e) {
   switch (e.key) {
     case "q":
       return updateBrushMode.call(btnNormal);
+    case "a":
+      return updateBrushMode.call(btnAlternate);
     case "w":
       return updateBrushMode.call(btnColor);
     case "e":
