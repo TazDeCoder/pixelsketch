@@ -201,3 +201,21 @@ document.addEventListener("keyup", function (e) {
       return updateBrushMode.call(btnEraser);
   }
 });
+
+// --- MOUSE SUPPORT ---
+
+sketchpad.addEventListener("mousedown", function (e) {
+  switch (e.which) {
+    // Left-click
+    case 1:
+      return updateBrushMode.call(btnNormal);
+    // Right-click
+    case 3:
+      return updateBrushMode.call(btnAlternate);
+  }
+});
+
+sketchpad.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  return false;
+});
