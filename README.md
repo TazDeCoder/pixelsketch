@@ -12,13 +12,16 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 
 - Modern User Interface
 - Simple Brush Modes
-- Customisable Sketchpad
+- Customizable Sketchpad
 - Keyboard Support
+- **NEW**: Duo-Pen (+ Mouse Support)
 
 **TASK-LIST:**
 
-- [ ] Duo-Pen - nearly implemented!
-- [ ] Downloadable Sketch
+- [x] Duo-Pen
+- [ ] ~~Downloadable Sketch~~
+
+**_None at the moment, but feel free to suggest any :)_**
 
 ## Installation
 
