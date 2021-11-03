@@ -91,6 +91,11 @@ function buildSketchpad() {
   sketchpad.style.gridTemplateColumns = `repeat(${canvas.pixels}, 1fr)`;
 }
 
+function clearSketchpad() {
+  const [...squares] = sketchpad.querySelectorAll(".square");
+  squares.forEach((s) => (s.style.backgroundColor = canvas.color));
+}
+
 function setBrushCursor(curName) {
   sketchpad.style.cursor = `url('/assets/images/${curName}.cur'), auto`;
 }
@@ -152,14 +157,17 @@ selectionModes.addEventListener("click", function (e) {
 });
 
 inputCanvasPixels.addEventListener("blur", function () {
+  if (inputCanvasPixels.value === canvas.pixels) return;
   // Only accepts input if it falls between 1 to 101
-  if (inputCanvasPixels.value > 1 && inputCanvasPixels.value < 101)
+  if (inputCanvasPixels.value > 1 && inputCanvasPixels.value < 101) {
     canvas.pixels = inputCanvasPixels.value;
-  else {
+    return resetSketchpad();
+  } else if (inputCanvasPixels.value > 100) {
     alert("Number is above 100!");
-    inputCanvasPixels.value = canvas.pixels;
+  } else {
+    alert("Number is invalid!");
   }
-  resetSketchpad();
+  inputCanvasPixels.value = canvas.pixels;
 });
 
 inputCanvasColor.addEventListener("input", function () {
@@ -168,10 +176,12 @@ inputCanvasColor.addEventListener("input", function () {
   const rgbColor = `rgb(${convertedColorArr.join(",").replaceAll(",", ", ")})`;
 
   const [...squares] = sketchpad.querySelectorAll(".square");
-  squares.forEach((s) => {
-    if (s.style.backgroundColor === rgbColor)
-      s.style.backgroundColor = inputCanvasColor.value;
-  });
+  const filteredSquares = squares.filter(
+    (s) => s.style.backgroundColor === rgbColor
+  );
+  filteredSquares.forEach(
+    (s) => (s.style.backgroundColor = inputCanvasColor.value)
+  );
   canvas.color = inputCanvasColor.value;
 });
 
@@ -183,7 +193,7 @@ inputBrushColorAlternate.addEventListener("input", function () {
   canvas.brush.color.alternate = inputBrushColorAlternate.value;
 });
 
-btnClear.addEventListener("click", resetSketchpad);
+btnClear.addEventListener("click", clearSketchpad);
 
 // --- KEYBOARD SUPPORT ---
 
