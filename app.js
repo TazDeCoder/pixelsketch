@@ -45,6 +45,22 @@ const canvas = {
 };
 
 ////////////////////////////////////////////////
+////// General functions
+///////////////////////////////////////////////
+
+const hexToDeciConvertor = (hex) => parseInt(hex, 16);
+
+function generateRandColor(min, max) {
+  const rgbVal = () => Math.trunc(Math.random() * (max - min)) + min;
+  return `rgb(${rgbVal()},${rgbVal()},${rgbVal()})`;
+}
+
+function generateShadeColor(val) {
+  const rgbVal = (val / 100) * 255;
+  return `rgb(${rgbVal},${rgbVal},${rgbVal})`;
+}
+
+////////////////////////////////////////////////
 ////// App UI Setup
 ///////////////////////////////////////////////
 
@@ -96,16 +112,11 @@ function clearSketchpad() {
   squares.forEach((s) => (s.style.backgroundColor = canvas.color));
 }
 
-function setBrushCursor(curName) {
-  sketchpad.style.cursor = `url('/assets/images/${curName}.cur'), auto`;
-}
-
 ////////////////////////////////////////////////
-////// App Logic
+//// Event Handlers
 ///////////////////////////////////////////////
 
 function handleBrushHover() {
-  setBrushCursor("brush");
   switch (canvas.brush.mode) {
     case "normal":
       this.style.backgroundColor = canvas.brush.color.primary;
@@ -122,25 +133,8 @@ function handleBrushHover() {
       break;
     case "eraser":
       this.style.backgroundColor = canvas.color;
-      setBrushCursor("eraser");
   }
 }
-
-function generateRandColor(min, max) {
-  const rgbVal = () => Math.trunc(Math.random() * (max - min)) + min;
-  return `rgb(${rgbVal()},${rgbVal()},${rgbVal()})`;
-}
-
-function generateShadeColor(val) {
-  const rgbVal = (val / 100) * 255;
-  return `rgb(${rgbVal},${rgbVal},${rgbVal})`;
-}
-
-////////////////////////////////////////////////
-////// Event Handlers
-///////////////////////////////////////////////
-
-const hexToDeciConvertor = (hex) => parseInt(hex, 16);
 
 function updateBrushMode() {
   const [...btns] = selectionModes.querySelectorAll(".selection__btn");
