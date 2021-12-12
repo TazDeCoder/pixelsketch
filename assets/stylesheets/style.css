@@ -15,7 +15,7 @@ html {
   font-size: 16px;
 }
 body {
-  background-color: rgb(214, 214, 214);
+  background-color: #d6d6d6;
 }
 nav,
 button,
@@ -23,161 +23,216 @@ a {
   min-width: 48px;
   min-height: 48px;
 }
-img,
-embed,
-object,
-video,
+/* prettier-ignore */
+img, embed,
+object, video,
 iframe {
-  max-width: 100%;
-  height: auto;
+   max-width: 100%;
+   height: auto;
 }
 :root {
-  --color-primary-border: #000;
   --color-primary-btn: #efefef;
-  --color-primary-btn--hover: #cfcfcf;
+  --color-primary-btn-hover: #cfcfcf;
   --color-secondary-btn: #fd9373;
-  --color-secondary-btn--hover: #e78669;
+  --color-secondary-btn-hover: #e78669;
 }
 
-/* Content */
+/*
+================================
+ Content
+
+================================
+*/
+
+/* General elements */
+
+/* Button */
+.btn {
+  cursor: pointer;
+  background-color: var(--color-primary-btn);
+  border: 2px solid black;
+}
+.btn:hover {
+  background-color: var(--color-primary-btn-hover);
+}
+.btn--active {
+  background-color: var(--color-secondary-btn);
+}
+.btn--active:hover {
+  background-color: var(--color-secondary-btn-hover);
+}
+/* Nav */
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+/* Class modifiers */
+.bold {
+  font-weight: 600;
+}
 
 /* 
- * Main 
  *
+ * Head
+ *
+ *
+ */
+
+.head {
+  width: 100%;
+}
+.head__label {
+  margin: 1rem;
+  font-size: 3rem;
+  text-align: center;
+}
+
+/* 
+ *
+ * Main
  *
  *
  */
 
 .main {
-  width: 90%;
+  width: 100%;
+  height: 80%;
+}
+.main__content {
   height: 100%;
-  margin: 0 auto;
-  font-size: 1rem;
-}
-.main__title {
-  font-size: 3.2em;
-  text-align: center;
-}
-.btn--clear {
-  display: block;
-  margin: 5px auto;
-  font-size: 1.3em;
-  border: 2px solid var(--color-primary-border);
-  background-color: var(--color-primary-btn);
-  cursor: pointer;
-}
-
-@media only screen and (min-width: 988px) {
-  .main {
-    width: 70%;
-  }
+  padding: 1rem;
 }
 
 /* 
- * 
- * Selection
+ *
+ * Main
+ *
+ * * * Content
  *
  *
  */
 
-.selection {
-  display: flex;
-  justify-content: center;
+.main .content__btn--clear {
+  display: block;
+  margin: 5px auto;
+  font-size: 1.3rem;
+}
+.main .content__nav {
   width: 100%;
   margin: 5px auto;
-  font-size: 1em;
 }
-.selection__btn {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
-  padding: 2px;
-  margin: 5px;
-  font-size: 1em;
-  border: 2px solid var(--color-primary-border);
-  background-color: var(--color-primary-btn);
-  cursor: pointer;
-  transition: all 400ms;
-}
-.selection__btn:hover {
-  background-color: var(--color-primary-btn--hover);
-}
-.selection__btn--active {
-  background-color: var(--color-secondary-btn);
-}
-.selection__btn--active:hover {
-  background-color: var(--color-secondary-btn--hover);
-}
-
-@media only screen and (min-width: 701px) {
-  .selection {
-    display: inline-flex;
-    flex-direction: column;
-    width: 20%;
-    height: 50%;
-    font-size: 1.1em;
-  }
-  .selection__btn {
-    max-width: 200px;
-  }
-}
-@media only screen and (min-width: 988px) {
-  .selection {
-    font-size: 1.2em;
-  }
-}
-
-/* Sketchpad */
-.sketchpad {
+.main .content__hero {
   display: grid;
   width: 100%;
   height: 70%;
-  border: 2px solid var(--color-primary-border);
-  background-color: #fff;
+  border: 2px solid black;
+  background-color: white;
   cursor: url("/assets/images/brush.cur"), auto;
+}
+.main .content__foot {
+  padding: 1rem;
 }
 
 @media only screen and (min-width: 701px) {
-  .sketchpad {
+  .main .content__nav {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    float: left;
+    width: 20%;
+    height: 50%;
+  }
+  .main .content__hero {
     display: inline-grid;
     width: min(70%, 900px);
   }
 }
 
 /* 
- * 
- * Options
+ *
+ * Main
+ *
+ * * * Content
+ *
+ * * * * * Nav
  *
  *
  */
 
-.options {
-  padding: 5px;
-  font-size: 1em;
-}
-.options__title {
+.main .content .nav__btn {
+  flex-grow: 1;
+  max-width: 8rem;
+  width: 50%;
+  padding: 2px;
   margin: 5px;
+  font-size: 1rem;
+  transition: all 400ms;
+}
+
+/* 
+ *
+ * Main
+ *
+ * * * Content
+ *
+ * * * * * Foot
+ *
+ *
+ */
+
+.main .content .foot__label--title {
+  margin: 5px;
+  font-size: 1.7rem;
   font-weight: 700;
-  font-size: 1.7em;
   text-decoration: underline;
 }
-.options__container {
+.main .content .foot__container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
   margin: 12px auto;
-  font-size: 1.1em;
-  border: 2px solid var(--color-primary-border);
+  border: 2px solid black;
 }
-.options__item {
-  padding: 5px;
+
+/* 
+ *
+ * Main
+ *
+ * * * Content
+ *
+ * * * * * Foot
+ *
+ * * * * * * * Container
+ *
+ *
+ */
+
+.main .content .foot .container__item {
+  padding: 0.5rem;
 }
-.options__label {
+
+/* 
+ *
+ * Main
+ *
+ * * * Content
+ *
+ * * * * * Foot
+ *
+ * * * * * * * Container
+ *
+ * * * * * * * * * Item
+ *
+ *
+ */
+
+.main .content .foot .container .item__label {
   display: inline-block;
   width: 70%;
 }
-.options__input {
+.main .content .foot .container .item__input {
   display: inline-block;
   width: 10%;
   margin: 12px auto;
@@ -186,21 +241,8 @@ iframe {
 }
 
 @media only screen and (min-width: 701px) {
-  .options {
-    font-size: 1.1em;
+  .main .content .foot .container .item__input {
+    font-size: 1rem;
+    max-width: 9rem;
   }
-  .options__input {
-    font-size: 1em;
-    max-width: 100px;
-  }
-}
-@media only screen and (min-width: 988px) {
-  .options {
-    font-size: 1.2em;
-  }
-}
-
-/* Class modifiers */
-.bold {
-  font-weight: 600;
 }
