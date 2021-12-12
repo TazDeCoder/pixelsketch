@@ -22,71 +22,71 @@
     <title>Etch-a-Sketch</title>
   </head>
   <body>
+    <header class="head">
+      <h1 class="head__label">Etch-a-Sketch</h1>
+    </header>
     <main class="main">
-      <h1 class="main__title">Etch-a-Sketch</h1>
-      <button class="btn btn--clear bold">Clear</button>
-      <section class="selection selection--modes">
-        <button
-          class="selection__btn selection__btn--active selection__btn--normal"
-          value="normal"
-        >
-          Normal <br /><b class="bold">(q)</b>
-        </button>
-        <button
-          class="selection__btn selection__btn--alternate"
-          value="alternate"
-        >
-          Alternate <br /><b class="bold">(a)</b>
-        </button>
-        <button class="selection__btn selection__btn--color" value="color">
-          Color <br /><b class="bold">(w)</b>
-        </button>
-        <button class="selection__btn selection__btn--shade" value="shade">
-          Shade <br /><b class="bold">(e)</b>
-        </button>
-        <button class="selection__btn selection__btn--eraser" value="eraser">
-          Eraser <br /><b class="bold">(d)</b>
-        </button>
-      </section>
-      <div class="sketchpad"></div>
-      <section class="options options--input">
-        <h2 class="options__title">Options</h2>
-        <div class="options__container">
-          <div class="options__item">
-            <p class="options__label">
-              Change Layout Dimension Per Side (squares)
-            </p>
-            <input
-              class="options__input options__input--canvas-pixels"
-              type="number"
-              value="16"
-              min="1"
-              max="100"
-            />
+      <div class="main__content content">
+        <button class="btn content__btn content__btn--clear bold">Clear</button>
+        <nav class="content__nav content__nav--modes nav">
+          <button
+            class="btn nav__btn nav__btn--normal btn--active"
+            value="normal"
+          >
+            Normal <br /><b class="bold">(q)</b>
+          </button>
+          <button class="btn nav__btn nav__btn--alternate" value="alternate">
+            Alternate <br /><b class="bold">(a)</b>
+          </button>
+          <button class="btn nav__btn nav__btn--color" value="color">
+            Color <br /><b class="bold">(w)</b>
+          </button>
+          <button class="btn nav__btn nav__btn--shade" value="shade">
+            Shade <br /><b class="bold">(e)</b>
+          </button>
+          <button class="btn nav__btn nav__btn--eraser" value="eraser">
+            Eraser <br /><b class="bold">(d)</b>
+          </button>
+        </nav>
+        <div class="content__hero canvas"></div>
+        <footer class="content__foot foot">
+          <h1 class="foot__label foot__label--title">Options</h1>
+          <div class="foot__container foot__container--config container">
+            <div class="container__item item">
+              <p class="item__label">
+                Change Layout Dimension Per Side (squares)
+              </p>
+              <input
+                class="item__input item__input--pixels"
+                type="number"
+                min="1"
+                max="100"
+              />
+            </div>
+            <div class="container__item item">
+              <p class="item__label">Change Brush Colors</p>
+              <input
+                class="item__input item__input--primary"
+                type="color"
+                value="#000000"
+              />
+              <input
+                class="item__input item__input--alternate"
+                type="color"
+                value="#ff0000"
+              />
+            </div>
+            <div class="container__item item">
+              <p class="item__label">Change Background Color</p>
+              <input
+                class="item__input item__input--color"
+                type="color"
+                value="#000000"
+              />
+            </div>
           </div>
-          <div class="options__item">
-            <p class="options__label">Change Brush Colors</p>
-            <input
-              class="options__input options__input--brush-color-primary"
-              type="color"
-              value="#000000"
-            />
-            <input
-              class="options__input options__input--brush-color-alternate"
-              type="color"
-              value="#ff0000"
-            />
-          </div>
-          <div class="options__item">
-            <p class="options__label">Change Background Color</p>
-            <input
-              class="options__input options__input--canvas-color"
-              type="color"
-              value="#000000"
-            />
-          </div>
-        </div>
-      </section>
+        </footer>
+      </div>
     </main>
   </body>
 </html>
