@@ -2,7 +2,7 @@
 
 ## Screenshots
 
-![Showcasing different brush modes](/assets/images/brush-modes.png)
+![screenshots-0](/assets/images/screenshots-0.png)
 
 ## Description
 
@@ -14,12 +14,9 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 - Simple Brush Modes
 - Customizable Sketchpad
 - Keyboard Support
-- **NEW**: Duo-Pen (+ Mouse Support)
+- Duo-Pen (+ Mouse Support)
 
 **TASK-LIST:**
-
-- [x] Duo-Pen
-- [ ] ~~Downloadable Sketch~~
 
 **_None at the moment, but feel free to suggest any :)_**
 
