@@ -5,21 +5,20 @@
 ///////////////////////////////////////////////
 
 // Parents
-const sketchpad = document.querySelector(".canvas");
+const canvas = document.querySelector(".hero__content");
 const navModes = document.querySelector(".content__nav--modes");
-const configContainer = document.querySelector(".foot__container--config");
+const configContainer = document.querySelector(".content__item--colors");
 // Buttons
-const btnClear = document.querySelector(".content__btn--clear");
+const btnClear = document.querySelector(".hero__btn--clear");
 const btnNormal = document.querySelector(".nav__btn--normal");
 const btnAlternate = document.querySelector(".nav__btn--alternate");
 const btnColor = document.querySelector(".nav__btn--color");
 const btnShade = document.querySelector(".nav__btn--shade");
 const btnEraser = document.querySelector(".nav__btn--eraser");
 // Inputs
-const inputPixels = document.querySelector(".item__input--pixels");
-const inputColor = document.querySelector(".item__input--color");
-const inputPrimary = document.querySelector(".item__input--primary");
-const inputAlternate = document.querySelector(".item__input--alternate");
+const inputPixels = document.querySelector(".hero__input--pixels");
+const inputPrimary = document.querySelector(".item__input--primary-color");
+const inputAlternate = document.querySelector(".item__input--alternate-color");
 
 ////////////////////////////////////////////////
 ////// App Architecture
@@ -27,72 +26,46 @@ const inputAlternate = document.querySelector(".item__input--alternate");
 
 class App {
   #pixels;
-  #color;
   #brushMode;
   #brushColors = {};
+  #color = "#ffffff";
 
   constructor() {
     this._loadApp();
     // Add event handlers
     document.addEventListener("keyup", this._handleKeyupPress.bind(this));
-    sketchpad.addEventListener("contextmenu", this._handleMouseEvents);
-    sketchpad.addEventListener("mousedown", this._handleMouseEvents.bind(this));
     navModes.addEventListener("click", this._toggleBrushMode.bind(this));
-    configContainer.addEventListener("input", this._handleUserInput.bind(this));
+    configContainer.addEventListener(
+      "input",
+      this._handleColorInput.bind(this)
+    );
+    // --- CANVAS ---
+    canvas.addEventListener("contextmenu", this._handleMouseEvents);
+    canvas.addEventListener("mousedown", this._handleMouseEvents.bind(this));
+    inputPixels.addEventListener("click", this._handleCanvasInput.bind(this));
     btnClear.addEventListener("click", this._clearSketchpad.bind(this));
   }
+
+  /////////////////////////////////////
+  //////////// Handler functions
 
   _loadApp() {
     // Initial variables
     this.#pixels = 16;
-    this.#color = "#f7f7f7";
     this.#brushMode = "normal";
     this.#brushColors.main = "#000000";
     this.#brushColors.alternate = "#ff0000";
     // Clean-up UI
-    inputPixels.value = this.#pixels;
     inputPrimary.value = this.#brushColors.main;
     inputAlternate.value = this.#brushColors.alternate;
-    inputColor.value = this.#color;
     this._updateBrushMode.call(this, btnNormal);
     this._buildSketchpad();
   }
 
-  _resetSketchpad() {
-    this._destroySketchpad();
-    this._buildSketchpad();
-  }
-
-  _destroySketchpad() {
-    // Destroys canvas child nodes
-    while (sketchpad.firstChild) {
-      sketchpad.removeChild(sketchpad.firstChild);
-    }
-  }
-
-  _buildSketchpad() {
-    for (let i = 0; i < this.#pixels ** 2; i++) {
-      const div = document.createElement("div");
-      div.classList.add("square");
-      div.style.backgroundColor = this.#color;
-      div.setAttribute("data-percent", "100");
-      div.addEventListener("mouseover", this._handleBrushHover.bind(this, div));
-      sketchpad.appendChild(div);
-    }
-    sketchpad.style.gridTemplateRows = `repeat(${this.#pixels}, 1fr`;
-    sketchpad.style.gridTemplateColumns = `repeat(${this.#pixels}, 1fr)`;
-  }
-
-  _clearSketchpad() {
-    const [...squares] = sketchpad.querySelectorAll(".square");
-    squares.forEach((s) => (s.style.backgroundColor = this.#color));
-  }
-
   _toggleBrushMode(e) {
-    const clicked = e.target;
+    const clicked = e.target.closest(".nav__btn");
     if (!clicked) return;
-    if (clicked.classList.contains("nav__btn"))
-      this._updateBrushMode.call(this, clicked);
+    this._updateBrushMode.call(this, clicked);
   }
 
   _updateBrushMode(btn) {
@@ -102,7 +75,10 @@ class App {
     this.#brushMode = btn.value;
   }
 
-  _handleBrushHover(div) {
+  _handleBrushHover(e) {
+    const target = e.target.closest(".square");
+    if (!target) return;
+
     // Helper functions
     const generateRandColor = function (min, max) {
       const rgbVal = () => Math.trunc(Math.random() * (max - min)) + min;
@@ -115,60 +91,32 @@ class App {
 
     switch (this.#brushMode) {
       case "normal":
-        div.style.backgroundColor = this.#brushColors.main;
+        target.style.backgroundColor = this.#brushColors.main;
         break;
       case "alternate":
-        div.style.backgroundColor = this.#brushColors.alternate;
+        target.style.backgroundColor = this.#brushColors.alternate;
         break;
       case "color":
-        div.style.backgroundColor = generateRandColor(0, 255);
+        target.style.backgroundColor = generateRandColor(0, 255);
         break;
       case "shade":
-        div.style.backgroundColor = generateShadeColor(div.dataset.percent);
-        div.dataset.percent -= 10;
+        target.style.backgroundColor = generateShadeColor(
+          target.dataset.percent
+        );
+        target.dataset.percent -= 10;
         break;
       case "eraser":
-        div.style.backgroundColor = this.#color;
+        target.style.backgroundColor = this.#color;
     }
   }
 
-  _handleUserInput(e) {
-    const target = e.target;
+  _handleColorInput(e) {
+    const target = e.target.closest(".item__input");
     if (!target) return;
-    // Helper function
-    const hexToDeciConvertor = (hex) => parseInt(hex, 16);
-    if (target.classList.contains("item__input--pixels")) {
-      if (inputPixels.value === this.#pixels) return;
-      // Only accepts input if it falls between 1 to 101
-      if (inputPixels.value > 1 && inputPixels.value < 101) {
-        this.#pixels = inputPixels.value;
-        return this._resetSketchpad();
-      }
-      // Reset pixel value back if invalid
-      inputPixels.value = this.#pixels;
-      if (inputPixels.value > 100) return alert("Number is above 100!");
-      if (!inputPixels.value) return alert("Invalid input");
-    }
-    if (target.classList.contains("item__input--color")) {
-      const colorArr = this.#color.substring(1).match(/.{1,2}/g);
-      const convertedColorArr = colorArr.map((el) => hexToDeciConvertor(el));
-      const rgbColor = `rgb(${convertedColorArr
-        .join(",")
-        .replaceAll(",", ", ")})`;
-
-      const [...squares] = sketchpad.querySelectorAll(".square");
-      const filteredSquares = squares.filter(
-        (s) => s.style.backgroundColor === rgbColor
-      );
-      filteredSquares.forEach(
-        (s) => (s.style.backgroundColor = inputColor.value)
-      );
-      this.#color = inputColor.value;
-    }
-    if (target.classList.contains("item__input--primary"))
-      this.#brushColors.main = inputPrimary.value;
-    if (target.classList.contains("item__input--alternate"))
-      this.#brushColors.alternate = inputAlternate.value;
+    if (target.classList.contains("item__input--primary-color"))
+      this.#brushColors.main = target.value;
+    if (target.classList.contains("item__input--alternate-color"))
+      this.#brushColors.alternate = target.value;
   }
 
   _handleKeyupPress(e) {
@@ -197,6 +145,54 @@ class App {
       case 2:
         return this._updateBrushMode.call(this, btnAlternate);
     }
+  }
+
+  _handleCanvasInput(e) {
+    const target = e.target;
+    if (target.classList.contains("hero__input--pixels")) {
+      if (inputPixels.value === this.#pixels) return;
+      // Only accepts input if it falls between 1 to 101
+      if (inputPixels.value > 1 && inputPixels.value < 101) {
+        this.#pixels = inputPixels.value;
+        return this._resetSketchpad();
+      }
+      // Reset pixel value back if invalid
+      inputPixels.value = this.#pixels;
+      if (inputPixels.value > 100) return alert("Number is above 100!");
+      if (!inputPixels.value) return alert("Invalid input");
+    }
+  }
+
+  /////////////////////////////////////
+  //////////// Sketchpad functions
+
+  _resetSketchpad() {
+    this._destroySketchpad();
+    this._buildSketchpad();
+  }
+
+  _destroySketchpad() {
+    // Destroys canvas child nodes
+    while (canvas.firstChild) {
+      canvas.removeChild(canvas.firstChild);
+    }
+  }
+
+  _buildSketchpad() {
+    for (let i = 0; i < this.#pixels ** 2; i++) {
+      const html = `
+      <div class="square" data-percent="100"></div>
+      `;
+      canvas.insertAdjacentHTML("beforeend", html);
+    }
+    canvas.style.gridTemplateRows = `repeat(${this.#pixels}, 1fr`;
+    canvas.style.gridTemplateColumns = `repeat(${this.#pixels}, 1fr)`;
+    canvas.addEventListener("mouseover", this._handleBrushHover.bind(this));
+  }
+
+  _clearSketchpad() {
+    const [...squares] = canvas.querySelectorAll(".square");
+    squares.forEach((s) => (s.style.backgroundColor = this.#color));
   }
 }
 
