@@ -15,7 +15,7 @@
       href="./assets/stylesheets/style.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script defer src="./app.js"></script>
@@ -25,67 +25,67 @@
     <header class="head">
       <h1 class="head__label">Etch-a-Sketch</h1>
     </header>
+
+    <div class="text text--cheat-sheet hidden">
+      <p class="text__label">
+        <span class="span--bold">Normal</span> = left-click/q
+      </p>
+      <p class="text__label">
+        <span class="span--bold">Alternate</span> = right-click/a
+      </p>
+      <p class="text__label"><span class="span--bold">Color</span> = w</p>
+      <p class="text__label"><span class="span--bold">Shade</span> = e</p>
+      <p class="text__label"><span class="span--bold">Eraser</span> = d</p>
+    </div>
+
     <main class="main">
       <div class="main__content content">
-        <button class="btn content__btn content__btn--clear bold">Clear</button>
+        <div class="content__item content__item--colors item">
+          <p class="item__label item__label--title">Colors</p>
+          <input
+            class="item__input item__input--primary-color"
+            type="color"
+            value="#000000"
+          />
+          <input
+            class="item__input item__input--alternate-color"
+            type="color"
+            value="#ff0000"
+          />
+        </div>
+
         <nav class="content__nav content__nav--modes nav">
           <button
             class="btn nav__btn nav__btn--normal btn--active"
             value="normal"
           >
-            Normal <br /><b class="bold">(q)</b>
+            Normal
           </button>
           <button class="btn nav__btn nav__btn--alternate" value="alternate">
-            Alternate <br /><b class="bold">(a)</b>
+            Alternate
           </button>
           <button class="btn nav__btn nav__btn--color" value="color">
-            Color <br /><b class="bold">(w)</b>
+            Color
           </button>
           <button class="btn nav__btn nav__btn--shade" value="shade">
-            Shade <br /><b class="bold">(e)</b>
+            Shade
           </button>
           <button class="btn nav__btn nav__btn--eraser" value="eraser">
-            Eraser <br /><b class="bold">(d)</b>
+            Eraser
           </button>
         </nav>
-        <div class="content__hero canvas"></div>
-        <footer class="content__foot foot">
-          <h1 class="foot__label foot__label--title">Options</h1>
-          <div class="foot__container foot__container--config container">
-            <div class="container__item item">
-              <p class="item__label">
-                Change Layout Dimension Per Side (squares)
-              </p>
-              <input
-                class="item__input item__input--pixels"
-                type="number"
-                min="1"
-                max="100"
-              />
-            </div>
-            <div class="container__item item">
-              <p class="item__label">Change Brush Colors</p>
-              <input
-                class="item__input item__input--primary"
-                type="color"
-                value="#000000"
-              />
-              <input
-                class="item__input item__input--alternate"
-                type="color"
-                value="#ff0000"
-              />
-            </div>
-            <div class="container__item item">
-              <p class="item__label">Change Background Color</p>
-              <input
-                class="item__input item__input--color"
-                type="color"
-                value="#000000"
-              />
-            </div>
-          </div>
-        </footer>
+
+        <div class="content__hero hero">
+          <div class="hero__content"></div>
+          <input
+            class="hero__input hero__input--pixels"
+            type="number"
+            min="1"
+            max="100"
+            placeholder="pixels"
+          />
+          <button class="hero__btn hero__btn--clear">Clear</button>
+        </div>
       </div>
     </main>
   </body>
