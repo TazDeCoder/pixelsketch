@@ -2,7 +2,9 @@
 
 ## Screenshots
 
-![screenshots-0](/assets/images/screenshots-0.png)
+![screenshots-0](/screenshots/screenshots-0.png)
+![screenshots-1](/screenshots/screenshots-1.png)
+![screenshots-2](/screenshots/screenshots-2.png)
 
 ## Description
 
@@ -11,8 +13,6 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 **Features:**
 
 - Modern User Interface
-- Simple Brush Modes
-- Customizable Sketchpad
 - Keyboard Support
 - Duo-Pen (+ Mouse Support)
 

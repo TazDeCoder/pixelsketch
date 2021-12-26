@@ -245,7 +245,7 @@ iframe {
   border: 1rem solid var(--color-secondary);
   border-radius: 5px;
   background-color: white;
-  cursor: url("/assets/images/brush.cur"), auto;
+  cursor: url("../images/brush.cur"), auto;
 }
 .main__content .hero__content .square {
   border: 1px solid black;

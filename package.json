@@ -1,0 +1,23 @@
+{
+  "name": "etch-a-sketch",
+  "version": "1.0.0",
+  "description": "Etch-a-Sketch application",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarwat-uddin/etch-a-sketch.git"
+  },
+  "author": "Tarwat Uddin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tarwat-uddin/etch-a-sketch/issues"
+  },
+  "homepage": "https://github.com/tarwat-uddin/etch-a-sketch#readme",
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  }
+}
