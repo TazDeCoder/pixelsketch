@@ -1,4 +1,4 @@
-# Etch-a-Sketch
+# PixelSketch
 
 ## Screenshots
 
@@ -8,7 +8,7 @@
 
 ## Description
 
-Draw anyhting using this sketchpad, and mostly importantly, have fun!
+A JavaScript application based on the Odin Project exercise - **'Etch-a-Sketch'**
 
 **Features:**
 
@@ -16,9 +16,11 @@ Draw anyhting using this sketchpad, and mostly importantly, have fun!
 - Keyboard Support
 - Duo-Pen (+ Mouse Support)
 
-**TASK-LIST:**
+## What I've Learnt
 
-**_None at the moment, but feel free to suggest any :)_**
++ Advanced DOM manipulation
++ Handling mouse events
++ Using data-attributes to store data
 
 ## Installation
 
@@ -26,7 +28,7 @@ To use this project, first clone the repo on your device using the command below
 
 `git init`
 
-`https://github.com/tarwat-uddin/etch-a-sketch.git`
+`https://github.com/tarwat-uddin/pixelsketch.git`
 
 ## License
 
