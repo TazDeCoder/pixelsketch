@@ -1,11 +1,13 @@
 "use strict";
 
+import "core-js/stable";
+
 ////////////////////////////////////////////////
 ////// Selecting HTML Elements
 ///////////////////////////////////////////////
 
 // Parents
-const canvas = document.querySelector(".hero__content");
+const canvas = document.querySelector(".hero__content--canvas");
 const navModes = document.querySelector(".content__nav--modes");
 const configContainer = document.querySelector(".content__item--colors");
 // Buttons
@@ -16,7 +18,7 @@ const btnColor = document.querySelector(".nav__btn--color");
 const btnShade = document.querySelector(".nav__btn--shade");
 const btnEraser = document.querySelector(".nav__btn--eraser");
 // Inputs
-const inputPixels = document.querySelector(".hero__input--pixels");
+const inputPixels = document.querySelector(".canvas__input--pixels");
 const inputPrimary = document.querySelector(".item__input--primary-color");
 const inputAlternate = document.querySelector(".item__input--alternate-color");
 
@@ -136,7 +138,7 @@ class App {
 
   _handleMouseEvents(e) {
     e.preventDefault();
-    if (e.type === "contextmenu") return false;
+    if (e.type === "contextmenu" || window.screen.width <= 768) return false;
     switch (e.button) {
       // Left-click
       case 0:

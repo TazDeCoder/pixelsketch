@@ -1,7 +1,7 @@
 {
-  "name": "etch-a-sketch",
+  "name": "pixelsketch",
   "version": "1.0.0",
-  "description": "Etch-a-Sketch application",
+  "description": "create quick pixel art sketches",
   "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
@@ -9,15 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tarwat-uddin/etch-a-sketch.git"
+    "url": "git+https://github.com/tarwat-uddin/pixelsketch.git"
   },
   "author": "Tarwat Uddin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tarwat-uddin/etch-a-sketch/issues"
+    "url": "https://github.com/tarwat-uddin/pixelsketch/issues"
   },
-  "homepage": "https://github.com/tarwat-uddin/etch-a-sketch#readme",
+  "homepage": "https://github.com/tarwat-uddin/pixelsketch#readme",
   "devDependencies": {
-    "parcel": "^2.0.1"
+    "parcel": "^2.5.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.1",
+    "core-js": "^3.22.4"
   }
 }

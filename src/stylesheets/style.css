@@ -5,16 +5,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
 html {
   font-family: "Gemunu Libre", sans-serif;
   font-size: 16px;
 }
 body {
+  min-height: 100vh;
   background-color: var(--color-primary);
 }
 nav,
@@ -74,26 +70,6 @@ iframe {
   display: flex;
   justify-content: center;
 }
-/* Text */
-.text--cheat-sheet {
-  display: none;
-  position: absolute;
-  top: 5rem;
-  left: 3rem;
-  padding: 0.5rem;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-}
-.text--cheat-sheet .span--bold {
-  color: var(--color-secondary);
-}
-
-@media only screen and (min-width: 701px) {
-  .text--cheat-sheet {
-    display: inline;
-  }
-}
 
 /* 
  *
@@ -103,6 +79,8 @@ iframe {
  */
 
 .head {
+  display: flex;
+  justify-content: center;
   width: 100%;
   background-color: azure;
 }
@@ -111,6 +89,48 @@ iframe {
   font-size: 3rem;
   font-weight: 300;
   text-align: center;
+}
+.head .head__content--socials {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+}
+.head .head__content--socials__item {
+  display: inline-block;
+  margin: 0 0.5rem;
+  padding: 10px 0;
+}
+.head .head__content--socials__item a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 3rem;
+}
+
+/* 
+ *
+ * Cheat sheet
+ *
+ *
+ */
+
+.cheat-sheet {
+  display: none;
+  position: absolute;
+  top: 5rem;
+  left: 3rem;
+  padding: 0.5rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.cheat-sheet .span--bold {
+  color: var(--color-secondary);
+}
+
+@media only screen and (min-width: 769px) {
+  .cheat-sheet {
+    display: inline;
+  }
 }
 
 /* 
@@ -121,22 +141,10 @@ iframe {
  */
 
 .main {
-  width: 100%;
-  height: 100%;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow: hidden;
 }
-.main__content {
-  height: 100%;
-  padding: 0.5rem;
-}
-
-/* 
- *
- * Main
- *
- * * * Content
- *
- *
- */
 
 .main .content__item--colors {
   display: flex;
@@ -144,22 +152,13 @@ iframe {
   align-items: center;
   justify-content: center;
 }
-/* Nav Modes */
 .main .content__nav--modes {
   flex-wrap: wrap;
   margin: 1rem auto;
 }
-.main .content__nav--modes .nav__btn {
-  width: 6rem;
-  padding: 9px;
-  margin: 2px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  transition: all 400ms;
-}
-.main .content__hero {
+.main .content__hero--display {
   position: relative;
-  height: 70%;
+  height: 90vh;
 }
 
 @media only screen and (min-width: 701px) {
@@ -170,10 +169,33 @@ iframe {
     display: inline-flex;
     flex-flow: nowrap column;
     align-items: center;
-    float: left;
-    width: 20%;
+    margin-left: 5%;
     height: 50%;
   }
+  .main .content__hero--display {
+    float: right;
+    width: 80%;
+  }
+}
+
+/* 
+ *
+ * Main
+ *
+ * * * Content
+ *
+ * * * * * Modes
+ *
+ *
+ */
+
+.main .content__nav--modes .nav__btn {
+  width: 6rem;
+  padding: 9px;
+  margin: 2px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  transition: all 400ms;
 }
 
 /* 
@@ -187,15 +209,15 @@ iframe {
  *
  */
 
-.main__content .item__label--title {
+.main .content__item--colors .item__label--title {
   display: block;
   width: 100%;
-  margin: 12px;
+  margin: 0.25rem;
   font-size: 1.7rem;
   font-weight: 500;
   text-align: center;
 }
-.main__content .item__input {
+.main .content__item--colors .item__input {
   width: 4rem;
   margin: 0 2px;
   cursor: pointer;
@@ -212,7 +234,7 @@ iframe {
  *
  */
 
-.main__content .hero__input {
+.main .content__hero--display .canvas__input {
   position: absolute;
   top: 0;
   right: 0;
@@ -222,7 +244,7 @@ iframe {
   border: 3px solid var(--color-secondary);
   border-radius: 5px;
 }
-.main__content .hero__btn--clear {
+.main .content__hero--display .hero__btn--clear {
   position: absolute;
   bottom: -1rem;
   left: 50%;
@@ -230,14 +252,13 @@ iframe {
   font-family: inherit;
   font-size: 1.5rem;
   font-weight: 600;
-  cursor: pointer;
   background-color: white;
   border: 3px solid var(--color-secondary);
   border-radius: 12px;
   transform: translateX(-50%);
 }
 /* Hero Content */
-.main__content .hero__content {
+.main .content__hero--display .hero__content {
   position: absolute;
   display: grid;
   width: 100%;
@@ -245,21 +266,17 @@ iframe {
   border: 1rem solid var(--color-secondary);
   border-radius: 5px;
   background-color: white;
-  cursor: url("../images/brush.cur"), auto;
+  cursor: url("../../public/images/brush.cur"), auto;
 }
-.main__content .hero__content .square {
+.main .content__hero--display .hero__content .square {
   border: 1px solid black;
 }
 
 @media only screen and (min-width: 701px) {
-  .main__content .hero__input {
-    right: 10%;
-  }
-  .main__content .hero__btn--clear {
+  .main .content__hero--display .hero__btn--clear {
     transform: translateX(0);
   }
-  .main__content .hero__content {
+  .main .content__hero--display .hero__content {
     display: inline-grid;
-    width: min(70%, 900px);
   }
 }

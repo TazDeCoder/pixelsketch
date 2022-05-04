@@ -10,74 +10,88 @@
       href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script defer src="./src/app.js"></script>
-    <title>Etch-a-Sketch</title>
+    <link
+      href="./node_modules/@fortawesome/fontawesome-free/css/brands.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="./public/images/favicon.ico" />
+    <script defer type="module" src="./src/app.js"></script>
+    <title>PixelSketch</title>
   </head>
   <body>
     <header class="head">
-      <h1 class="head__label">Etch-a-Sketch</h1>
+      <h1 class="head__label">PixelSketch</h1>
+      <div class="head__content--socials__item">
+        <a
+          href="https://github.com/tarwat-uddin/pixelsketch"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fa-brands fa-github" />
+        </a>
+      </div>
+      <div class="head__content--socials__item">
+        <a href="https://dev.to/tarwatuddin" target="_blank" rel="noopener">
+          <i class="fa-brands fa-dev" />
+        </a>
+      </div>
     </header>
 
-    <div class="text text--cheat-sheet hidden">
-      <p class="text__label">
-        <span class="span--bold">Normal</span> = left-click/q
-      </p>
-      <p class="text__label">
-        <span class="span--bold">Alternate</span> = right-click/a
-      </p>
-      <p class="text__label"><span class="span--bold">Color</span> = w</p>
-      <p class="text__label"><span class="span--bold">Shade</span> = e</p>
-      <p class="text__label"><span class="span--bold">Eraser</span> = d</p>
+    <div class="cheat-sheet">
+      <p><span class="span--bold">Normal</span> = left-click/q</p>
+      <p><span class="span--bold">Alternate</span> = right-click/a</p>
+      <p><span class="span--bold">Color</span> = w</p>
+      <p><span class="span--bold">Shade</span> = e</p>
+      <p><span class="span--bold">Eraser</span> = d</p>
     </div>
 
     <main class="main">
-      <div class="main__content content">
-        <div class="content__item content__item--colors item">
-          <p class="item__label item__label--title">Colors</p>
-          <input
-            class="item__input item__input--primary-color"
-            type="color"
-            value="#000000"
-          />
-          <input
-            class="item__input item__input--alternate-color"
-            type="color"
-            value="#ff0000"
-          />
-        </div>
-
-        <nav class="content__nav content__nav--modes nav">
-          <button
-            class="btn nav__btn nav__btn--normal btn--active"
-            value="normal"
-          >
-            Normal
-          </button>
-          <button class="btn nav__btn nav__btn--alternate" value="alternate">
-            Alternate
-          </button>
-          <button class="btn nav__btn nav__btn--color" value="color">
-            Color
-          </button>
-          <button class="btn nav__btn nav__btn--shade" value="shade">
-            Shade
-          </button>
-          <button class="btn nav__btn nav__btn--eraser" value="eraser">
-            Eraser
-          </button>
-        </nav>
-
-        <div class="content__hero hero">
-          <div class="hero__content"></div>
-          <input
-            class="hero__input hero__input--pixels"
-            type="number"
-            min="1"
-            max="100"
-            placeholder="pixels"
-          />
-          <button class="hero__btn hero__btn--clear">Clear</button>
-        </div>
+      <!-- COLOR PICKERS -->
+      <div class="content__item content__item--colors">
+        <p class="item__label item__label--title">Colors</p>
+        <input
+          class="item__input item__input--primary-color"
+          type="color"
+          value="#000000"
+        />
+        <input
+          class="item__input item__input--alternate-color"
+          type="color"
+          value="#ff0000"
+        />
+      </div>
+      <!-- BRUSH MODE SELECTOR -->
+      <nav class="content__nav content__nav--modes nav">
+        <button
+          class="btn nav__btn nav__btn--normal btn--active"
+          value="normal"
+        >
+          Normal
+        </button>
+        <button class="btn nav__btn nav__btn--alternate" value="alternate">
+          Alternate
+        </button>
+        <button class="btn nav__btn nav__btn--color" value="color">
+          Color
+        </button>
+        <button class="btn nav__btn nav__btn--shade" value="shade">
+          Shade
+        </button>
+        <button class="btn nav__btn nav__btn--eraser" value="eraser">
+          Eraser
+        </button>
+      </nav>
+      <!-- CANVAS  -->
+      <div class="content__hero content__hero--display">
+        <div class="hero__content hero__content--canvas"></div>
+        <input
+          class="canvas__input canvas__input--pixels"
+          type="number"
+          min="1"
+          max="100"
+          placeholder="pixels"
+        />
+        <button class="btn hero__btn hero__btn--clear">Clear</button>
       </div>
     </main>
   </body>
