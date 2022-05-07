@@ -2,9 +2,8 @@
 
 ## Screenshots
 
-<img src="./public/images/screenshots/screenshots-2.png" width="45%" align="left" />
-<img src="./public/images/screenshots/screenshots-0.png" width="50%" align="center" />
-<img src="./public/images/screenshots/screenshots-1.png" width="50%" align="center" /> 
+<img src="./public/images/screenshots/screenshots-1.png" width="65%"></img> 
+<img src="./public/images/screenshots/screenshots-2.png" width="30%"></img>
 
 ## Description
 
